@@ -1,0 +1,250 @@
+USE [master]
+GO
+/****** Object:  Database [GYMbd]    Script Date: 14/05/2021 13:41:45 ******/
+CREATE DATABASE [GYMbd]
+ CONTAINMENT = NONE
+ ON  PRIMARY 
+( NAME = N'GYMbd', FILENAME = N'/var/opt/mssql/data/GYMbd.mdf' , SIZE = 8192KB , MAXSIZE = UNLIMITED, FILEGROWTH = 65536KB )
+ LOG ON 
+( NAME = N'GYMbd_log', FILENAME = N'/var/opt/mssql/data/GYMbd_log.ldf' , SIZE = 8192KB , MAXSIZE = 2048GB , FILEGROWTH = 65536KB )
+ WITH CATALOG_COLLATION = DATABASE_DEFAULT
+GO
+ALTER DATABASE [GYMbd] SET COMPATIBILITY_LEVEL = 150
+GO
+IF (1 = FULLTEXTSERVICEPROPERTY('IsFullTextInstalled'))
+begin
+EXEC [GYMbd].[dbo].[sp_fulltext_database] @action = 'enable'
+end
+GO
+ALTER DATABASE [GYMbd] SET ANSI_NULL_DEFAULT OFF 
+GO
+ALTER DATABASE [GYMbd] SET ANSI_NULLS OFF 
+GO
+ALTER DATABASE [GYMbd] SET ANSI_PADDING OFF 
+GO
+ALTER DATABASE [GYMbd] SET ANSI_WARNINGS OFF 
+GO
+ALTER DATABASE [GYMbd] SET ARITHABORT OFF 
+GO
+ALTER DATABASE [GYMbd] SET AUTO_CLOSE OFF 
+GO
+ALTER DATABASE [GYMbd] SET AUTO_SHRINK OFF 
+GO
+ALTER DATABASE [GYMbd] SET AUTO_UPDATE_STATISTICS ON 
+GO
+ALTER DATABASE [GYMbd] SET CURSOR_CLOSE_ON_COMMIT OFF 
+GO
+ALTER DATABASE [GYMbd] SET CURSOR_DEFAULT  GLOBAL 
+GO
+ALTER DATABASE [GYMbd] SET CONCAT_NULL_YIELDS_NULL OFF 
+GO
+ALTER DATABASE [GYMbd] SET NUMERIC_ROUNDABORT OFF 
+GO
+ALTER DATABASE [GYMbd] SET QUOTED_IDENTIFIER OFF 
+GO
+ALTER DATABASE [GYMbd] SET RECURSIVE_TRIGGERS OFF 
+GO
+ALTER DATABASE [GYMbd] SET  DISABLE_BROKER 
+GO
+ALTER DATABASE [GYMbd] SET AUTO_UPDATE_STATISTICS_ASYNC OFF 
+GO
+ALTER DATABASE [GYMbd] SET DATE_CORRELATION_OPTIMIZATION OFF 
+GO
+ALTER DATABASE [GYMbd] SET TRUSTWORTHY OFF 
+GO
+ALTER DATABASE [GYMbd] SET ALLOW_SNAPSHOT_ISOLATION OFF 
+GO
+ALTER DATABASE [GYMbd] SET PARAMETERIZATION SIMPLE 
+GO
+ALTER DATABASE [GYMbd] SET READ_COMMITTED_SNAPSHOT OFF 
+GO
+ALTER DATABASE [GYMbd] SET HONOR_BROKER_PRIORITY OFF 
+GO
+ALTER DATABASE [GYMbd] SET RECOVERY SIMPLE 
+GO
+ALTER DATABASE [GYMbd] SET  MULTI_USER 
+GO
+ALTER DATABASE [GYMbd] SET PAGE_VERIFY CHECKSUM  
+GO
+ALTER DATABASE [GYMbd] SET DB_CHAINING OFF 
+GO
+ALTER DATABASE [GYMbd] SET FILESTREAM( NON_TRANSACTED_ACCESS = OFF ) 
+GO
+ALTER DATABASE [GYMbd] SET TARGET_RECOVERY_TIME = 60 SECONDS 
+GO
+ALTER DATABASE [GYMbd] SET DELAYED_DURABILITY = DISABLED 
+GO
+ALTER DATABASE [GYMbd] SET ACCELERATED_DATABASE_RECOVERY = OFF  
+GO
+ALTER DATABASE [GYMbd] SET QUERY_STORE = OFF
+GO
+USE [GYMbd]
+GO
+/****** Object:  Table [dbo].[Clientes]    Script Date: 14/05/2021 13:41:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Clientes](
+	[idCliente] [int] IDENTITY(1,1) NOT NULL,
+	[nombreCliente] [varchar](50) NOT NULL,
+	[apellidosCliente] [varchar](50) NOT NULL,
+	[dniCliente] [varchar](9) NOT NULL,
+	[fechaInscripcionCliente] [date] NULL,
+	[telefonoCliente] [varchar](9) NULL,
+ CONSTRAINT [PK_Clientes] PRIMARY KEY CLUSTERED 
+(
+	[idCliente] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Cursa]    Script Date: 14/05/2021 13:41:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Cursa](
+	[idCursa] [int] IDENTITY(1,1) NOT NULL,
+	[idClienteFK] [int] NULL,
+	[idCursoFK] [int] NULL,
+ CONSTRAINT [PK_Cursa] PRIMARY KEY CLUSTERED 
+(
+	[idCursa] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Curso]    Script Date: 14/05/2021 13:41:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Curso](
+	[idCurso] [int] IDENTITY(1,1) NOT NULL,
+	[nombreCurso] [varchar](50) NULL,
+	[tipoCurso] [varchar](50) NULL,
+	[horaCurso] [time](7) NULL,
+	[zonaCurso] [varchar](50) NULL,
+ CONSTRAINT [PK_Curso] PRIMARY KEY CLUSTERED 
+(
+	[idCurso] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[deporteExterior]    Script Date: 14/05/2021 13:41:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[deporteExterior](
+	[idDeporteExterior] [int] IDENTITY(1,1) NOT NULL,
+	[zonaDeporteExterior] [varchar](50) NULL,
+	[idCursoFK] [int] NULL,
+ CONSTRAINT [PK_deporteExterior] PRIMARY KEY CLUSTERED 
+(
+	[idDeporteExterior] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[deporteInterior]    Script Date: 14/05/2021 13:41:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[deporteInterior](
+	[idDeporteInterior] [int] IDENTITY(1,1) NOT NULL,
+	[maquinasDeporteInterior] [varchar](50) NULL,
+	[idCursoFK] [int] NULL,
+ CONSTRAINT [PK_deporteInterior] PRIMARY KEY CLUSTERED 
+(
+	[idDeporteInterior] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+/****** Object:  Table [dbo].[Empleados]    Script Date: 14/05/2021 13:41:46 ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+CREATE TABLE [dbo].[Empleados](
+	[idEmpleado] [int] IDENTITY(1,1) NOT NULL,
+	[nombreEmpleado] [varchar](50) NOT NULL,
+	[apellidosEmpleado] [varchar](50) NOT NULL,
+	[dniEmpleado] [varchar](9) NOT NULL,
+	[telefonoEmpleado] [varchar](9) NULL,
+	[idEncargadoFK] [int] NULL,
+	[idCursoFK] [int] NULL,
+ CONSTRAINT [PK_Empleados] PRIMARY KEY CLUSTERED 
+(
+	[idEmpleado] ASC
+)WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
+) ON [PRIMARY]
+GO
+SET IDENTITY_INSERT [dbo].[Clientes] ON 
+
+INSERT [dbo].[Clientes] ([idCliente], [nombreCliente], [apellidosCliente], [dniCliente], [fechaInscripcionCliente], [telefonoCliente]) VALUES (1, N'Ana', N'Sánchez Guzman', N'7683881E', CAST(N'2021-02-14' AS Date), N'954126432')
+INSERT [dbo].[Clientes] ([idCliente], [nombreCliente], [apellidosCliente], [dniCliente], [fechaInscripcionCliente], [telefonoCliente]) VALUES (2, N'Ana', N'Sánchez Guzman', N'7683881E', CAST(N'2021-02-14' AS Date), N'954126432')
+INSERT [dbo].[Clientes] ([idCliente], [nombreCliente], [apellidosCliente], [dniCliente], [fechaInscripcionCliente], [telefonoCliente]) VALUES (3, N'Paco', N'Guzman Mendez', N'8684881A', CAST(N'2021-02-14' AS Date), N'954126432')
+SET IDENTITY_INSERT [dbo].[Clientes] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Cursa] ON 
+
+INSERT [dbo].[Cursa] ([idCursa], [idClienteFK], [idCursoFK]) VALUES (1, 1, 1)
+INSERT [dbo].[Cursa] ([idCursa], [idClienteFK], [idCursoFK]) VALUES (2, 3, 2)
+SET IDENTITY_INSERT [dbo].[Cursa] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Curso] ON 
+
+INSERT [dbo].[Curso] ([idCurso], [nombreCurso], [tipoCurso], [horaCurso], [zonaCurso]) VALUES (1, N'Calinstenia', N'Anaerobico', NULL, N'Exterior')
+INSERT [dbo].[Curso] ([idCurso], [nombreCurso], [tipoCurso], [horaCurso], [zonaCurso]) VALUES (2, N'Cardio', N'Aerobico', NULL, N'Exterior')
+SET IDENTITY_INSERT [dbo].[Curso] OFF
+GO
+SET IDENTITY_INSERT [dbo].[deporteExterior] ON 
+
+INSERT [dbo].[deporteExterior] ([idDeporteExterior], [zonaDeporteExterior], [idCursoFK]) VALUES (1, N'Barras parque', 1)
+SET IDENTITY_INSERT [dbo].[deporteExterior] OFF
+GO
+SET IDENTITY_INSERT [dbo].[deporteInterior] ON 
+
+INSERT [dbo].[deporteInterior] ([idDeporteInterior], [maquinasDeporteInterior], [idCursoFK]) VALUES (1, N'Cuerdas gym', 1)
+SET IDENTITY_INSERT [dbo].[deporteInterior] OFF
+GO
+SET IDENTITY_INSERT [dbo].[Empleados] ON 
+
+INSERT [dbo].[Empleados] ([idEmpleado], [nombreEmpleado], [apellidosEmpleado], [dniEmpleado], [telefonoEmpleado], [idEncargadoFK], [idCursoFK]) VALUES (1, N'Carlos', N'Hidalgo', N'6366543D', N'954325019', NULL, 1)
+INSERT [dbo].[Empleados] ([idEmpleado], [nombreEmpleado], [apellidosEmpleado], [dniEmpleado], [telefonoEmpleado], [idEncargadoFK], [idCursoFK]) VALUES (2, N'Rosa', N'Barcena', N'7366543E', N'954322159', NULL, 2)
+SET IDENTITY_INSERT [dbo].[Empleados] OFF
+GO
+ALTER TABLE [dbo].[Cursa]  WITH CHECK ADD  CONSTRAINT [FK_Cursa_Clientes] FOREIGN KEY([idClienteFK])
+REFERENCES [dbo].[Clientes] ([idCliente])
+GO
+ALTER TABLE [dbo].[Cursa] CHECK CONSTRAINT [FK_Cursa_Clientes]
+GO
+ALTER TABLE [dbo].[Cursa]  WITH CHECK ADD  CONSTRAINT [FK_Cursa_Curso] FOREIGN KEY([idCursoFK])
+REFERENCES [dbo].[Curso] ([idCurso])
+GO
+ALTER TABLE [dbo].[Cursa] CHECK CONSTRAINT [FK_Cursa_Curso]
+GO
+ALTER TABLE [dbo].[deporteExterior]  WITH CHECK ADD  CONSTRAINT [FK_deporteExterior_Curso] FOREIGN KEY([idCursoFK])
+REFERENCES [dbo].[Curso] ([idCurso])
+GO
+ALTER TABLE [dbo].[deporteExterior] CHECK CONSTRAINT [FK_deporteExterior_Curso]
+GO
+ALTER TABLE [dbo].[deporteInterior]  WITH CHECK ADD  CONSTRAINT [FK_deporteInterior_Curso] FOREIGN KEY([idCursoFK])
+REFERENCES [dbo].[Curso] ([idCurso])
+GO
+ALTER TABLE [dbo].[deporteInterior] CHECK CONSTRAINT [FK_deporteInterior_Curso]
+GO
+ALTER TABLE [dbo].[Empleados]  WITH CHECK ADD  CONSTRAINT [FK_Empleados_Curso] FOREIGN KEY([idCursoFK])
+REFERENCES [dbo].[Curso] ([idCurso])
+GO
+ALTER TABLE [dbo].[Empleados] CHECK CONSTRAINT [FK_Empleados_Curso]
+GO
+ALTER TABLE [dbo].[Empleados]  WITH CHECK ADD  CONSTRAINT [FK_Empleados_Empleados] FOREIGN KEY([idEncargadoFK])
+REFERENCES [dbo].[Empleados] ([idEmpleado])
+GO
+ALTER TABLE [dbo].[Empleados] CHECK CONSTRAINT [FK_Empleados_Empleados]
+GO
+USE [master]
+GO
+ALTER DATABASE [GYMbd] SET  READ_WRITE 
+GO
